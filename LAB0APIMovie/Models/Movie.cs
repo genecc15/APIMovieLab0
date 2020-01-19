@@ -9,7 +9,7 @@ namespace LAB0APIMovie.Models
     {
         public string Id { get; set; }
         public string Nombre { get; set; }
-        public string Año { get; set; }
+        public string Anio { get; set; }
         public string Director { get; set; }
     }
 }
