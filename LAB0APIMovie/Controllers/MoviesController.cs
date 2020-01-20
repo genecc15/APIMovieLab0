@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LAB0APIMovie.Models;
+using System.IO;
 
 namespace LAB0APIMovie.Controllers
 {
@@ -24,7 +25,17 @@ namespace LAB0APIMovie.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> Getmovies()
         {
-            return await _context.movies.ToListAsync();
+            // await _context.movies.ToListAsync();
+
+            var t = _context.movies.Reverse().Take(4);
+            var data = t.ToListAsync();
+            
+
+            // var data3 = data.Take(4).ToList();
+
+            return await data;
+
+            
         }
 
         // GET: api/Movies/5
