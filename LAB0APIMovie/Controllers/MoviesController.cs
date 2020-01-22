@@ -24,7 +24,9 @@ namespace LAB0APIMovie.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> Getmovies()
         {
-            return await _context.movies.ToListAsync();
+            _context.movies.reverse();
+
+            return await _context.movies.take(2).ToListAsync();
         }
 
         // GET: api/Movies/5
