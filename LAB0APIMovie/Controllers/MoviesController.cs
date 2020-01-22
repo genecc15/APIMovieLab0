@@ -27,13 +27,10 @@ namespace LAB0APIMovie.Controllers
         {
             // await _context.movies.ToListAsync();
 
-            var t = _context.movies.Reverse().Take(4);
-            var data = t.ToListAsync();
-            
-
-            // var data3 = data.Take(4).ToList();
-
-            return await data;
+            /*var data = _context.movies.Reverse().Take(4);
+            var t = data.ToListAsync();*/
+            var t = _context.movies.TakeLast(4).ToListAsync();
+            return await t;
 
             
         }
