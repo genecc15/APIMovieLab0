@@ -25,21 +25,30 @@ namespace LAB0APIMovie.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> Getmovies()
         {
-            // await _context.movies.ToListAsync();
 
-            /*var data = _context.movies.Reverse().Take(4);
-            var t = data.ToListAsync();*/
-            var t = _context.movies.TakeLast(4).ToListAsync();
-            return await t;
+            if (_context.movies == null)
+            {
 
-            
+                var data3 = _context.movies.ToListAsync();
+                return await data3;
+            }
+            else
+            {
+                var data = _context.movies.ToList();
+
+
+                var data3 = data.TakeLast(3).ToList();
+                return data3;
+            }
+
+
         }
 
-        // GET: api/Movies/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetMovie(string id)
+        // GET: api/Movies/nombre
+        [HttpGet("{Nombre}")]
+        public async Task<ActionResult<Movie>> GetMovie(string nombre)
         {
-            var movie = await _context.movies.FindAsync(id);
+            var movie = await _context.movies.FindAsync(nombre);
 
             if (movie == null)
             {
@@ -49,13 +58,12 @@ namespace LAB0APIMovie.Controllers
             return movie;
         }
 
-        // PUT: api/Movies/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutMovie(string id, Movie movie)
+        // PUT: api/Movies/nombre
+       
+        [HttpPut("{Nombre}")]
+        public async Task<IActionResult> PutMovie(string nombre, Movie movie)
         {
-            if (id != movie.Id)
+            if (nombre != movie.Nombre)
             {
                 return BadRequest();
             }
@@ -68,7 +76,7 @@ namespace LAB0APIMovie.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(id))
+                if (!MovieExists(nombre))
                 {
                     return NotFound();
                 }
@@ -82,8 +90,7 @@ namespace LAB0APIMovie.Controllers
         }
 
         // POST: api/Movies
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+      
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {
@@ -94,7 +101,7 @@ namespace LAB0APIMovie.Controllers
             }
             catch (DbUpdateException)
             {
-                if (MovieExists(movie.Id))
+                if (MovieExists(movie.Nombre))
                 {
                     return Conflict();
                 }
@@ -104,14 +111,14 @@ namespace LAB0APIMovie.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
+            return CreatedAtAction("GetMovie", new { Nombre = movie.Nombre }, movie);
         }
 
-        // DELETE: api/Movies/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Movie>> DeleteMovie(string id)
+        // DELETE: api/Movies/nombre
+        [HttpDelete("{Nombre}")]
+        public async Task<ActionResult<Movie>> DeleteMovie(string nombre)
         {
-            var movie = await _context.movies.FindAsync(id);
+            var movie = await _context.movies.FindAsync(nombre);
             if (movie == null)
             {
                 return NotFound();
@@ -123,9 +130,9 @@ namespace LAB0APIMovie.Controllers
             return movie;
         }
 
-        private bool MovieExists(string id)
+        private bool MovieExists(string nombre)
         {
-            return _context.movies.Any(e => e.Id == id);
+            return _context.movies.Any(e => e.Nombre == nombre);
         }
     }
 }
