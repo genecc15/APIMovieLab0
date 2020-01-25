@@ -37,18 +37,18 @@ namespace LAB0APIMovie.Controllers
                 var data = _context.movies.ToList();
 
 
-                var data3 = data.TakeLast(3).ToList();
+                var data3 = data.TakeLast(10).ToList();
                 return data3;
             }
 
 
         }
 
-        // GET: api/Movies/nombre
-        [HttpGet("{Nombre}")]
-        public async Task<ActionResult<Movie>> GetMovie(string nombre)
+        // GET: api/Movies/id
+        [HttpGet("{Id}")]
+        public async Task<ActionResult<Movie>> GetMovie(string id)
         {
-            var movie = await _context.movies.FindAsync(nombre);
+            var movie = await _context.movies.FindAsync(id);
 
             if (movie == null)
             {
@@ -58,12 +58,12 @@ namespace LAB0APIMovie.Controllers
             return movie;
         }
 
-        // PUT: api/Movies/nombre
+        // PUT: api/Movies/id
        
-        [HttpPut("{Nombre}")]
-        public async Task<IActionResult> PutMovie(string nombre, Movie movie)
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> PutMovie(string id, Movie movie)
         {
-            if (nombre != movie.Nombre)
+            if (id != movie.Nombre)
             {
                 return BadRequest();
             }
@@ -76,7 +76,7 @@ namespace LAB0APIMovie.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MovieExists(nombre))
+                if (!MovieExists(id))
                 {
                     return NotFound();
                 }
@@ -101,7 +101,7 @@ namespace LAB0APIMovie.Controllers
             }
             catch (DbUpdateException)
             {
-                if (MovieExists(movie.Nombre))
+                if (MovieExists(movie.Id))
                 {
                     return Conflict();
                 }
@@ -111,14 +111,14 @@ namespace LAB0APIMovie.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMovie", new { Nombre = movie.Nombre }, movie);
+            return CreatedAtAction("GetMovie", new {Id = movie.Id }, movie);
         }
 
-        // DELETE: api/Movies/nombre
-        [HttpDelete("{Nombre}")]
-        public async Task<ActionResult<Movie>> DeleteMovie(string nombre)
+        // DELETE: api/Movies/Id
+        [HttpDelete("{Id}")]
+        public async Task<ActionResult<Movie>> DeleteMovie(string id)
         {
-            var movie = await _context.movies.FindAsync(nombre);
+            var movie = await _context.movies.FindAsync(id);
             if (movie == null)
             {
                 return NotFound();
@@ -130,9 +130,9 @@ namespace LAB0APIMovie.Controllers
             return movie;
         }
 
-        private bool MovieExists(string nombre)
+        private bool MovieExists(string id)
         {
-            return _context.movies.Any(e => e.Nombre == nombre);
+            return _context.movies.Any(e => e.Id == id);
         }
     }
 }
