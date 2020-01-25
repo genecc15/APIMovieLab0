@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LAB0APIMovie.Models;
+using System.IO;
 
 namespace LAB0APIMovie.Controllers
 {
@@ -24,11 +25,27 @@ namespace LAB0APIMovie.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Movie>>> Getmovies()
         {
-            return await _context.movies.ToListAsync();
+
+            if (_context.movies == null)
+            {
+
+                var data3 = _context.movies.ToListAsync();
+                return await data3;
+            }
+            else
+            {
+                var data = _context.movies.ToList();
+
+
+                var data3 = data.TakeLast(10).ToList();
+                return data3;
+            }
+
+
         }
 
-        // GET: api/Movies/5
-        [HttpGet("{id}")]
+        // GET: api/Movies/id
+        [HttpGet("{Id}")]
         public async Task<ActionResult<Movie>> GetMovie(string id)
         {
             var movie = await _context.movies.FindAsync(id);
@@ -41,13 +58,12 @@ namespace LAB0APIMovie.Controllers
             return movie;
         }
 
-        // PUT: api/Movies/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
-        [HttpPut("{id}")]
+        // PUT: api/Movies/id
+       
+        [HttpPut("{Id}")]
         public async Task<IActionResult> PutMovie(string id, Movie movie)
         {
-            if (id != movie.Id)
+            if (id != movie.Nombre)
             {
                 return BadRequest();
             }
@@ -74,8 +90,7 @@ namespace LAB0APIMovie.Controllers
         }
 
         // POST: api/Movies
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see https://aka.ms/RazorPagesCRUD.
+      
         [HttpPost]
         public async Task<ActionResult<Movie>> PostMovie(Movie movie)
         {
@@ -96,11 +111,11 @@ namespace LAB0APIMovie.Controllers
                 }
             }
 
-            return CreatedAtAction("GetMovie", new { id = movie.Id }, movie);
+            return CreatedAtAction("GetMovie", new {Id = movie.Id }, movie);
         }
 
-        // DELETE: api/Movies/5
-        [HttpDelete("{id}")]
+        // DELETE: api/Movies/Id
+        [HttpDelete("{Id}")]
         public async Task<ActionResult<Movie>> DeleteMovie(string id)
         {
             var movie = await _context.movies.FindAsync(id);
