@@ -17,3 +17,4 @@ Para poder ver las películas ya agregadas se usa la dirección:  [Route("api/[c
 Para poder agregar películas:  [Route("api/[controller]")].
 Para modificar algun campo de una película:  [Route("api/[controller]/id")].
 Para eliminar alguna película:  [Route("api/[controller]/id")].
+El parámetro "Id" es obligatorio ya que funciona como llave primaria ya que se utilizó el paquete Nugget "SQL Entity Framework". 
